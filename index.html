@@ -24,6 +24,25 @@
 <link rel="stylesheet" href="lib/codemirror.css">
 <script src="lib/codemirror.js"></script>
 <script>
+  function toTable(output){
+    console.log(output[0])
+    var n = 0;
+    var table = document.createElement("TABLE");
+    for(i = 0; i < output[n].values.length; i++) {
+      var row = table.insertRow(i);
+      for(j = 0; j < output[n].values[i].length; j++){
+        var cell = row.insertCell(j);
+        cell.innerHTML = output[n].values[i][j]
+      }
+    }
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    for(i = 0; i < output[n].columns.length; i++) {
+      var cell = row.insertCell(i);
+      cell.innerHTML = output[n].columns[i];
+    }
+    document.body.appendChild(table);
+  }
   var editor = CodeMirror(document.body, {
     lineNumbers: true,
     mode: "sql"
@@ -31,6 +50,6 @@
   var btn = document.createElement("BUTTON");
   btn.innerHTML = 'Run Query';
   document.body.appendChild(btn)
-  btn.onclick = () => { console.log(db.exec(editor.getValue())); }
+  btn.onclick = () => { toTable(db.exec(editor.getValue())); }
 </script>
 </body>
